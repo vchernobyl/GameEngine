@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Sprite.h"
+#include "Shader.h"
 
 enum class GameState { Play, Exit };
 
@@ -11,6 +12,7 @@ public:
 
 private:
     void InitSystems();
+    void InitShaders();
     void RunGameLoop();
     void ProcessInput();
     void DrawGame();
@@ -20,4 +22,5 @@ private:
     int screenHeight;
     GameState gameState;
     Sprite sprite;
+    Shader shader;
 };
