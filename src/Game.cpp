@@ -3,17 +3,18 @@
 #include <SDL/SDL.h>
 #include <GL/glew.h>
 
-Game::Game() {
-    window = nullptr;
-    screenWidth = 1024;
-    screenHeight = 768;
-    gameState = GameState::Play;
+Game::Game() :
+    window(nullptr),
+    screenWidth(1024),
+    screenHeight(768),
+    gameState(GameState::Play),
+    time(0.0f) {
 }
 
 void Game::Run() {
     InitSystems();
 
-    sprite.Init(-1.0f, -1.0f, 1.0f, 1.0f);
+    sprite.Init(-1.0f, -1.0f, 2.0f, 2.0f);
 
     RunGameLoop();
 }
@@ -46,12 +47,14 @@ void Game::InitSystems() {
 void Game::InitShaders() {
     shader.Compile("data/shaders/ColorShading.vert", "data/shaders/ColorShading.frag");
     shader.AddAttribute("vertexPosition");
+    shader.AddAttribute("vertexColor");
     shader.Link();
 }
 
 void Game::RunGameLoop() {
     while (gameState != GameState::Exit) {
 	ProcessInput();
+	time += 0.01f;
 	DrawGame();
     }	
 }
@@ -72,6 +75,9 @@ void Game::DrawGame() {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     shader.Use();
+    GLuint timeLocation = shader.GetUniformLocation("time");
+    glUniform1f(timeLocation, time);
+
     sprite.Draw();
     shader.Unuse();
 

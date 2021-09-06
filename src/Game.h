@@ -23,4 +23,6 @@ private:
     GameState gameState;
     Sprite sprite;
     Shader shader;
+
+    float time;
 };
