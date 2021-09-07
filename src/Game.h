@@ -2,6 +2,7 @@
 
 #include "Sprite.h"
 #include "Shader.h"
+#include "Texture.h"
 
 enum class GameState { Play, Exit };
 
@@ -23,6 +24,7 @@ private:
     GameState gameState;
     Sprite sprite;
     Shader shader;
+    Texture playerTexture;
 
     float time;
 };
