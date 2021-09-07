@@ -50,6 +50,7 @@ void Game::InitShaders() {
     shader.Compile("data/shaders/ColorShading.vert", "data/shaders/ColorShading.frag");
     shader.AddAttribute("vertexPosition");
     shader.AddAttribute("vertexColor");
+    shader.AddAttribute("vertexUV");
     shader.Link();
 }
 
@@ -77,10 +78,17 @@ void Game::DrawGame() {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     shader.Use();
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_2D, playerTexture.id);
+    
+    GLint textureLocation = shader.GetUniformLocation("spriteTexture");
+    glUniform1i(textureLocation, 0);
+
     GLuint timeLocation = shader.GetUniformLocation("time");
     glUniform1f(timeLocation, time);
 
     sprite.Draw();
+    glBindTexture(GL_TEXTURE_2D, 0);
     shader.Unuse();
 
     SDL_GL_SwapWindow(window);
