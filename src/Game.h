@@ -3,6 +3,7 @@
 #include "Sprite.h"
 #include "Shader.h"
 #include "Texture.h"
+#include <vector>
 
 enum class GameState { Play, Exit };
 
@@ -22,9 +23,8 @@ private:
     int screenWidth;
     int screenHeight;
     GameState gameState;
-    Sprite sprite;
+    std::vector<Sprite*> sprites;
     Shader shader;
-    Texture playerTexture;
 
     float time;
 };

@@ -1,6 +1,5 @@
 #include "Game.h"
 #include "Errors.h"
-#include "ImageLoader.h"
 #include <SDL/SDL.h>
 #include <GL/glew.h>
 
@@ -15,8 +14,11 @@ Game::Game() :
 void Game::Run() {
     InitSystems();
 
-    sprite.Init(-1.0f, -1.0f, 2.0f, 2.0f);
-    playerTexture = ImageLoader::LoadPNG("data/textures/jimmyJump_pack/PNG/CharacterRight_Standing.png");
+    sprites.push_back(new Sprite());
+    sprites.back()->Init(-1.0f, -1.0f, 1.0f, 1.0f, "data/textures/jimmyJump_pack/PNG/CharacterRight_Standing.png");
+
+    sprites.push_back(new Sprite());
+    sprites.back()->Init(0.0f, -1.0f, 1.0f, 1.0f, "data/textures/jimmyJump_pack/PNG/CharacterRight_Standing.png");
 
     RunGameLoop();
 }
@@ -79,7 +81,6 @@ void Game::DrawGame() {
 
     shader.Use();
     glActiveTexture(GL_TEXTURE0);
-    glBindTexture(GL_TEXTURE_2D, playerTexture.id);
     
     GLint textureLocation = shader.GetUniformLocation("spriteTexture");
     glUniform1i(textureLocation, 0);
@@ -87,7 +88,10 @@ void Game::DrawGame() {
     GLuint timeLocation = shader.GetUniformLocation("time");
     glUniform1f(timeLocation, time);
 
-    sprite.Draw();
+    for (auto sprite : sprites) {
+	sprite->Draw();
+    }
+    
     glBindTexture(GL_TEXTURE_2D, 0);
     shader.Unuse();
 
