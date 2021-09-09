@@ -18,6 +18,7 @@ private:
     void RunGameLoop();
     void ProcessInput();
     void DrawGame();
+    void CalculateFPS();
 
     class SDL_Window* window;
     int screenWidth;
@@ -27,4 +28,8 @@ private:
     Shader shader;
 
     float time;
+
+    float fps;
+    float maxFPS;
+    float frameTime;
 };

@@ -2,13 +2,17 @@
 #include "Errors.h"
 #include <SDL/SDL.h>
 #include <GL/glew.h>
+#include <iostream>
 
 Game::Game() :
     window(nullptr),
     screenWidth(1024),
     screenHeight(768),
     gameState(GameState::Play),
-    time(0.0f) {
+    time(0.0f),
+    fps(0.0f),
+    maxFPS(60.0f),
+    frameTime(0.0f) {
 }
 
 void Game::Run() {
@@ -25,6 +29,7 @@ void Game::Run() {
 
 void Game::InitSystems() {
     SDL_Init(SDL_INIT_EVERYTHING);
+    SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
 
     window = SDL_CreateWindow("Game", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
 			      screenWidth, screenHeight, SDL_WINDOW_OPENGL);
@@ -42,8 +47,11 @@ void Game::InitSystems() {
 	FatalError("Could not initialize glew.");
     }
 
-    SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
+    std::printf("*** OpenGL version: %s ***\n", glGetString(GL_VERSION));
+
     glClearColor(0.0f, 0.0f, 1.0f, 1.0f);
+
+    SDL_GL_SetSwapInterval(0);
 
     InitShaders();
 }
@@ -58,9 +66,25 @@ void Game::InitShaders() {
 
 void Game::RunGameLoop() {
     while (gameState != GameState::Exit) {
+	float startTicks = SDL_GetTicks();
+
 	ProcessInput();
 	time += 0.01f;
 	DrawGame();
+	CalculateFPS();
+
+	static int frameCounter = 0;
+	if (frameCounter++ == 10) {
+	    std::cout << fps << std::endl;
+	    frameCounter = 0;
+	}
+
+	float frameTicks = SDL_GetTicks() - startTicks;
+	
+	// Limit FPS.
+	if (frameTicks < 1000.0f / maxFPS) {
+	    SDL_Delay(1000.0f / maxFPS - frameTicks);
+	}
     }	
 }
 
@@ -96,4 +120,40 @@ void Game::DrawGame() {
     shader.Unuse();
 
     SDL_GL_SwapWindow(window);
+}
+
+void Game::CalculateFPS() {
+    static const int numSamples = 10;
+    static float frameTimes[numSamples];
+    static int currentFrame = 0;
+
+    static float prevTicks = SDL_GetTicks();
+
+    float currentTicks;
+    currentTicks = SDL_GetTicks();
+
+    frameTime = currentTicks - prevTicks;
+    frameTimes[currentFrame % numSamples] = frameTime;
+
+    prevTicks = currentTicks;
+
+    int count;
+    currentFrame++;
+    if (currentFrame < numSamples) {
+	count = currentFrame;
+    } else {
+	count = numSamples;
+    }
+
+    float frameTimeAverage = 0.0f;
+    for (int i = 0; i < count; i++) {
+	frameTimeAverage += frameTimes[i];
+    }
+    frameTimeAverage /= count;
+
+    if (frameTimeAverage > 0) {
+	fps = 1000.0f / frameTimeAverage;
+    } else {
+	fps = 60.0f;
+    }
 }
