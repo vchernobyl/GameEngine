@@ -3,6 +3,7 @@
 #include "Sprite.h"
 #include "Shader.h"
 #include "Texture.h"
+#include "Window.h"
 #include <vector>
 
 enum class GameState { Play, Exit };
@@ -20,7 +21,7 @@ private:
     void DrawGame();
     void CalculateFPS();
 
-    class SDL_Window* window;
+    Window window;
     int screenWidth;
     int screenHeight;
     GameState gameState;

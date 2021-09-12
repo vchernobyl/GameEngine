@@ -5,7 +5,8 @@ set compile_flags=/nologo /DDEBUG /EHsc /MP /Zi /std:c++17
 set link_flags=/DEBUG:FASTLINK /SUBSYSTEM:CONSOLE
 
 set include_flags=/I ..\external\SDL\include^
-    /I ..\external\glew\include
+    /I ..\external\glew\include^
+    /I ..\external\glm\include
 
 set libs=shell32.lib^
     ..\external\SDL\lib\x64\SDL2.lib^
