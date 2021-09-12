@@ -4,6 +4,7 @@
 #include "Shader.h"
 #include "Texture.h"
 #include "Window.h"
+#include "Camera.h"
 #include <vector>
 
 enum class GameState { Play, Exit };
@@ -27,6 +28,7 @@ private:
     GameState gameState;
     std::vector<Sprite*> sprites;
     Shader shader;
+    Camera camera;
 
     float time;
 

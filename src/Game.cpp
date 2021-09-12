@@ -13,16 +13,19 @@ Game::Game() :
     fps(0.0f),
     maxFPS(60.0f),
     frameTime(0.0f) {
+    camera.Init(screenWidth, screenHeight);
 }
 
 void Game::Run() {
     InitSystems();
 
     sprites.push_back(new Sprite());
-    sprites.back()->Init(-1.0f, -1.0f, 1.0f, 1.0f, "data/textures/jimmyJump_pack/PNG/CharacterRight_Standing.png");
+    sprites.back()->Init(0.0f, 0.0f, screenWidth / 2, screenWidth / 2,
+			 "data/textures/jimmyJump_pack/PNG/CharacterRight_Standing.png");
 
     sprites.push_back(new Sprite());
-    sprites.back()->Init(0.0f, -1.0f, 1.0f, 1.0f, "data/textures/jimmyJump_pack/PNG/CharacterRight_Standing.png");
+    sprites.back()->Init(screenWidth / 2, 0.0f, screenWidth / 2, screenWidth / 2,
+			 "data/textures/jimmyJump_pack/PNG/CharacterRight_Standing.png");
 
     RunGameLoop();
 }
@@ -49,7 +52,11 @@ void Game::RunGameLoop() {
 	float startTicks = SDL_GetTicks();
 
 	ProcessInput();
+
+	// Temporary stuff
 	time += 0.01f;
+	camera.Update();
+
 	DrawGame();
 	CalculateFPS();
 
@@ -70,10 +77,36 @@ void Game::RunGameLoop() {
 
 void Game::ProcessInput() {
     SDL_Event event;
+
+    const float cameraSpeed = 10.0f;
+    const float scaleSpeed = 0.1f;
+
     while (SDL_PollEvent(&event)) {
 	switch (event.type) {
 	case SDL_QUIT:
 	    gameState = GameState::Exit;
+	    break;
+	case SDL_KEYDOWN:
+	    switch (event.key.keysym.sym) {
+	    case SDLK_w:
+		camera.SetPosition(camera.GetPosition() + glm::vec2(0.0f, cameraSpeed));
+		break;
+	    case SDLK_s:
+		camera.SetPosition(camera.GetPosition() + glm::vec2(0.0f, -cameraSpeed));
+		break;
+	    case SDLK_a:
+		camera.SetPosition(camera.GetPosition() + glm::vec2(-cameraSpeed, 0.0f));
+		break;
+	    case SDLK_d:
+		camera.SetPosition(camera.GetPosition() + glm::vec2(cameraSpeed, 0.0f));
+		break;
+	    case SDLK_q:
+		camera.SetScale(camera.GetScale() + scaleSpeed);
+		break;
+	    case SDLK_e:
+		camera.SetScale(camera.GetScale() - scaleSpeed);
+		break;
+	    }
 	    break;
 	}
     }
@@ -91,6 +124,10 @@ void Game::DrawGame() {
 
     GLuint timeLocation = shader.GetUniformLocation("time");
     glUniform1f(timeLocation, time);
+
+    GLuint pLocation = shader.GetUniformLocation("P");
+    glm::mat4 cameraMatrix = camera.GetCameraMatrix();
+    glUniformMatrix4fv(pLocation, 1, GL_FALSE, &(cameraMatrix[0][0]));
 
     for (auto sprite : sprites) {
 	sprite->Draw();
