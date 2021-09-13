@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Sprite.h"
+#include "SpriteBatch.h"
 #include "Shader.h"
 #include "Texture.h"
 #include "Window.h"
@@ -26,10 +26,11 @@ private:
     int screenWidth;
     int screenHeight;
     GameState gameState;
-    std::vector<Sprite*> sprites;
+
     Shader shader;
     Camera camera;
-
+    SpriteBatch spriteBatch;
+    
     float time;
 
     float fps;

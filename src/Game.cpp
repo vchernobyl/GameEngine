@@ -1,6 +1,8 @@
 #include "Game.h"
 #include "Engine.h"
 #include "Errors.h"
+#include "ResourceManager.h"
+
 #include <SDL/SDL.h>
 #include <GL/glew.h>
 #include <iostream>
@@ -18,15 +20,6 @@ Game::Game() :
 
 void Game::Run() {
     InitSystems();
-
-    sprites.push_back(new Sprite());
-    sprites.back()->Init(0.0f, 0.0f, screenWidth / 2, screenWidth / 2,
-			 "data/textures/jimmyJump_pack/PNG/CharacterRight_Standing.png");
-
-    sprites.push_back(new Sprite());
-    sprites.back()->Init(screenWidth / 2, 0.0f, screenWidth / 2, screenWidth / 2,
-			 "data/textures/jimmyJump_pack/PNG/CharacterRight_Standing.png");
-
     RunGameLoop();
 }
 
@@ -37,6 +30,7 @@ void Game::InitSystems() {
     window.Create("Game Engine", screenWidth, screenHeight, 0);
 
     InitShaders();
+    spriteBatch.Init();
 }
 
 void Game::InitShaders() {
@@ -129,10 +123,25 @@ void Game::DrawGame() {
     glm::mat4 cameraMatrix = camera.GetCameraMatrix();
     glUniformMatrix4fv(pLocation, 1, GL_FALSE, &(cameraMatrix[0][0]));
 
-    for (auto sprite : sprites) {
-	sprite->Draw();
+    spriteBatch.Begin();
+
+    glm::vec4 pos(0.0f, 0.0f, 50.0f, 50.0f);
+    glm::vec4 uv(0.0f, 0.0f, 1.0f, 1.0f);
+    static Texture texture = ResourceManager::GetTexture("data/textures/jimmyJump_pack/PNG/CharacterRight_Standing.png");
+    static Texture texture2 = ResourceManager::GetTexture("data/textures/jimmyJump_pack/PNG/CharacterLeft_Standing.png");
+    Color color;
+    color.r = 255.0f;
+    color.g = 255.0f;
+    color.b = 255.0f;
+    color.a = 255.0f;
+
+    for (int i = 0; i < 10000; i++) {
+	spriteBatch.Draw(pos, uv, texture.id, 0.0f, color);
+	spriteBatch.Draw(pos + glm::vec4(50.0f, 0.0f, 0.0f, 0.0f), uv, texture2.id, 0.0f, color);
     }
-    
+    spriteBatch.End();
+    spriteBatch.DrawBatch();
+
     glBindTexture(GL_TEXTURE_2D, 0);
     shader.Unuse();
 
