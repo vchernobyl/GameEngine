@@ -10,5 +10,5 @@ uniform sampler2D spriteTexture;
 
 void main() {
     vec4 textureColor = texture(spriteTexture, fragmentUV);
-    color = fragmentColor * textqureColor;
+    color = fragmentColor * textureColor;
 }

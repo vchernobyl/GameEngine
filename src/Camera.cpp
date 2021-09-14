@@ -26,6 +26,9 @@ void Camera::Update() {
 }
 
 glm::vec2 Camera::ScreenToWorld(glm::vec2 screenCoords) {
+    // Invert y coords.
+    screenCoords.y = screenHeight - screenCoords.y;
+    
     // Make (0, 0) to be at the center of the screen.
     screenCoords -= glm::vec2(screenWidth / 2, screenHeight / 2);
     screenCoords /= scale;

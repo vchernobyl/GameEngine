@@ -7,6 +7,7 @@
 #include "Camera.h"
 #include "InputManager.h"
 #include "Timing.h"
+#include "Bullet.h"
 #include <vector>
 
 enum class GameState { Play, Exit };
@@ -33,6 +34,8 @@ private:
     SpriteBatch spriteBatch;
     InputManager inputManager;
     FpsLimiter fpsLimiter;
+
+    std::vector<Bullet> bullets;
     
     float fps;
     float maxFPS;
