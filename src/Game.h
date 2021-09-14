@@ -34,7 +34,6 @@ private:
     InputManager inputManager;
     FpsLimiter fpsLimiter;
     
-    float time;
     float fps;
     float maxFPS;
 };

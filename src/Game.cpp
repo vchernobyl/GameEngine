@@ -11,7 +11,6 @@ Game::Game() :
     screenWidth(1024),
     screenHeight(768),
     gameState(GameState::Play),
-    time(0.0f),
     fps(0.0f),
     maxFPS(60.0f) {
     camera.Init(screenWidth, screenHeight);
@@ -47,8 +46,6 @@ void Game::RunGameLoop() {
 
 	ProcessInput();
 
-	// Temporary stuff
-	time += 0.01f;
 	camera.Update();
 
 	DrawGame();
@@ -112,9 +109,6 @@ void Game::DrawGame() {
     
     GLint textureLocation = shader.GetUniformLocation("spriteTexture");
     glUniform1i(textureLocation, 0);
-
-    GLuint timeLocation = shader.GetUniformLocation("time");
-    glUniform1f(timeLocation, time);
 
     GLuint pLocation = shader.GetUniformLocation("P");
     glm::mat4 cameraMatrix = camera.GetCameraMatrix();
