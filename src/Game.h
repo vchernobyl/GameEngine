@@ -5,6 +5,8 @@
 #include "Texture.h"
 #include "Window.h"
 #include "Camera.h"
+#include "InputManager.h"
+#include "Timing.h"
 #include <vector>
 
 enum class GameState { Play, Exit };
@@ -20,7 +22,6 @@ private:
     void RunGameLoop();
     void ProcessInput();
     void DrawGame();
-    void CalculateFPS();
 
     Window window;
     int screenWidth;
@@ -30,10 +31,10 @@ private:
     Shader shader;
     Camera camera;
     SpriteBatch spriteBatch;
+    InputManager inputManager;
+    FpsLimiter fpsLimiter;
     
     float time;
-
     float fps;
     float maxFPS;
-    float frameTime;
 };
