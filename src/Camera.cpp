@@ -24,3 +24,11 @@ void Camera::Update() {
 	needsMatrixUpdate = false;
     }
 }
+
+glm::vec2 Camera::ScreenToWorld(glm::vec2 screenCoords) {
+    // Make (0, 0) to be at the center of the screen.
+    screenCoords -= glm::vec2(screenWidth / 2, screenHeight / 2);
+    screenCoords /= scale;
+    screenCoords += position;
+    return screenCoords;
+}

@@ -53,7 +53,7 @@ void Game::RunGameLoop() {
 	fps = fpsLimiter.End();
 
 	static int frameCounter = 0;
-	if (frameCounter++ == 10) {
+	if (frameCounter++ == 10000) {
 	    std::cout << fps << std::endl;
 	    frameCounter = 0;
 	}
@@ -73,6 +73,15 @@ void Game::ProcessInput() {
 	    break;
 	case SDL_KEYUP:
 	    inputManager.ReleaseKey(event.key.keysym.sym);
+	    break;
+	case SDL_MOUSEBUTTONDOWN:
+	    inputManager.PressKey(event.button.button);
+	    break;
+	case SDL_MOUSEBUTTONUP:
+	    inputManager.ReleaseKey(event.button.button);
+	    break;
+	case SDL_MOUSEMOTION:
+	    inputManager.SetMouseCoords(event.motion.x, event.motion.y);
 	    break;
 	}
     }
@@ -97,6 +106,12 @@ void Game::ProcessInput() {
     }
     if (inputManager.IsKeyPressed(SDLK_e)) {
 	camera.SetScale(camera.GetScale() - scaleSpeed);
+    }
+
+    if (inputManager.IsKeyPressed(SDL_BUTTON_LEFT)) {
+	glm::vec2 mouseCoords = inputManager.GetMouseCoords();
+	glm::vec2 worldCoords = camera.ScreenToWorld(mouseCoords);
+	std::printf("x=%f, y=%f\n", worldCoords.x, worldCoords.y);
     }
 }
 

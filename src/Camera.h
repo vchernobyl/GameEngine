@@ -16,6 +16,7 @@ public:
     float GetScale() const { return scale; }
 
     const glm::mat4& GetCameraMatrix() const { return cameraMatrix; }
+    glm::vec2 ScreenToWorld(glm::vec2 screenCoords);
 
 private:
     float scale;
