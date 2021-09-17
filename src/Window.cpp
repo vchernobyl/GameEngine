@@ -20,6 +20,7 @@ int Window::Create(const std::string& windowName, int screenWidth, int screenHei
 	FatalError("SDL_GLContext could not be created.");
     }
 
+    glewExperimental = GL_TRUE;
     GLenum error = glewInit();
     if (error != GLEW_OK) {
 	FatalError("Could not initialize glew.");

@@ -1,13 +1,11 @@
 #pragma once
 
-#include "SpriteBatch.h"
 #include "Shader.h"
 #include "Texture.h"
 #include "Window.h"
 #include "Camera.h"
 #include "InputManager.h"
 #include "Timing.h"
-#include "Bullet.h"
 #include <vector>
 
 enum class GameState { Play, Exit };
@@ -15,6 +13,7 @@ enum class GameState { Play, Exit };
 class Game {
 public:
     Game();
+    ~Game();
     void Run();
 
 private:
@@ -31,12 +30,12 @@ private:
 
     Shader shader;
     Camera camera;
-    SpriteBatch spriteBatch;
     InputManager inputManager;
     FpsLimiter fpsLimiter;
 
-    std::vector<Bullet> bullets;
+    std::vector<class Level*> levels;
     
     float fps;
     float maxFPS;
+    int currentLevel;
 };

@@ -8,11 +8,8 @@ Texture TextureCache::GetTexture(const std::string& texturePath) {
     if (iter == textureMap.end()) {
 	Texture newTexture = ImageLoader::LoadPNG(texturePath);
 	textureMap.emplace(texturePath, newTexture);
-
-	std::cout << "Saving texture to cache.\n";
 	return newTexture;
     }
 
-    std::cout << "Loaded texture from cache.\n";
     return iter->second;
 }
