@@ -5,6 +5,8 @@
 #include "Level.h"
 #include "Zombie.h"
 #include "Human.h"
+#include <random>
+#include <ctime>
 
 #include <SDL/SDL.h>
 #include <GL/glew.h>
@@ -50,6 +52,17 @@ void Game::InitLevel() {
     player = new Player();
     player->Init(5.0f, levels[currentLevel]->GetPlayerStartPosition(), &inputManager);
     humans.push_back(player);
+
+    std::mt19937 randomEngine;
+    randomEngine.seed(time(nullptr));
+    std::uniform_int_distribution<int> randX(2, levels[currentLevel]->GetWidth() - 1);
+    std::uniform_int_distribution<int> randY(2, levels[currentLevel]->GetHeight() - 1);
+
+    for (int i = 0; i < levels[currentLevel]->GetNumHumans(); i++) {
+	humans.push_back(new Human);
+	glm::vec2 pos(randX(randomEngine) * TileSize, randY(randomEngine) * TileSize);
+	humans.back()->Init(1.0f, pos);
+    }
 }
 
 void Game::InitShaders() {
