@@ -1,4 +1,5 @@
 #include "Player.h"
+#include "Zombie.h"
 #include <SDL/SDL.h>
 
 Player::Player() {
@@ -14,14 +15,21 @@ void Player::Init(int speed, const glm::vec2& position, InputManager* inputManag
     this->inputManager = inputManager;
 }
 
-void Player::Update() {
+void Player::Update(const std::vector<std::string>& levelData,
+		    std::vector<Human*>& humans,
+		    std::vector<Zombie*>& zombies) {
     if (inputManager->IsKeyPressed(SDLK_w)) {
 	position.y += speed;
-    } else if (inputManager->IsKeyPressed(SDLK_s)) {
+    }
+    if (inputManager->IsKeyPressed(SDLK_s)) {
 	position.y -= speed;
-    } else if (inputManager->IsKeyPressed(SDLK_d)) {
+    }
+    if (inputManager->IsKeyPressed(SDLK_d)) {
 	position.x += speed;
-    } else if (inputManager->IsKeyPressed(SDLK_a)) {
+    }
+    if (inputManager->IsKeyPressed(SDLK_a)) {
 	position.x -= speed;
     }	
+
+    CollideWithLevel(levelData);
 }

@@ -3,6 +3,8 @@
 #include "Errors.h"
 #include "ResourceManager.h"
 #include "Level.h"
+#include "Zombie.h"
+#include "Human.h"
 
 #include <SDL/SDL.h>
 #include <GL/glew.h>
@@ -60,7 +62,7 @@ void Game::InitShaders() {
 
 void Game::UpdateAgents() {
     for (auto agent : humans) {
-	agent->Update();
+	agent->Update(levels[currentLevel]->GetLevelData(), humans, zombies);
     }
 }
 
@@ -144,6 +146,7 @@ void Game::DrawGame() {
 
     shader.Use();
 
+    // Looks like these 3 lines are optional.
     glActiveTexture(GL_TEXTURE0);
     GLint textureUniform = shader.GetUniformLocation("spriteTexture");
     glUniform1i(textureUniform, 0);

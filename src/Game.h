@@ -42,6 +42,8 @@ private:
 
     std::vector<class Level*> levels;
     std::vector<class Human*> humans;
+    std::vector<class Zombie*> zombies;
+    
     Player* player;
     
     float fps;
