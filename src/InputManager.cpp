@@ -13,7 +13,7 @@ void InputManager::SetMouseCoords(float x, float y) {
     mouseCoords.y = y;
 }
 
-bool InputManager::IsKeyPressed(unsigned int keyID) {
+bool InputManager::IsKeyPressed(unsigned int keyID) const {
     const auto it = keyMap.find(keyID);
     if (it != keyMap.end()) {
 	return it->second;

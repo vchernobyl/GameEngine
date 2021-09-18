@@ -6,6 +6,10 @@
 #include "Camera.h"
 #include "InputManager.h"
 #include "Timing.h"
+#include "Human.h"
+#include "Agent.h"
+#include "Player.h"
+#include "SpriteBatch.h"
 #include <vector>
 
 enum class GameState { Play, Exit };
@@ -18,7 +22,9 @@ public:
 
 private:
     void InitSystems();
+    void InitLevel();
     void InitShaders();
+    void UpdateAgents();
     void RunGameLoop();
     void ProcessInput();
     void DrawGame();
@@ -30,10 +36,13 @@ private:
 
     Shader shader;
     Camera camera;
+    SpriteBatch agentSpriteBatch;
     InputManager inputManager;
     FpsLimiter fpsLimiter;
 
     std::vector<class Level*> levels;
+    std::vector<class Human*> humans;
+    Player* player;
     
     float fps;
     float maxFPS;

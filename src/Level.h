@@ -12,11 +12,15 @@ class Level {
 public:
     Level(const std::string& fileName);
     void Draw();
+
+    const glm::vec2& GetPlayerStartPosition() const { return playerStartPosition; }
+    const std::vector<glm::vec2>& GetZombieStartPositions() const { return zombieStartPositions; }
+
 private:
     std::vector<std::string> levelData;
     int numHumans;
     SpriteBatch spriteBatch;
 
-    glm::ivec2 playerStartPosition;
-    std::vector<glm::ivec2> zombieStartPositions;
+    glm::vec2 playerStartPosition;
+    std::vector<glm::vec2> zombieStartPositions;
 };

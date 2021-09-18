@@ -4,5 +4,5 @@
 
 class Zombie : public Agent {
 public:
+    void Update() override;
 };
-
