@@ -63,6 +63,12 @@ void Game::InitLevel() {
 	glm::vec2 pos(randX(randomEngine) * TileSize, randY(randomEngine) * TileSize);
 	humans.back()->Init(1.0f, pos);
     }
+
+    const std::vector<glm::vec2>& zombiePositions = levels[currentLevel]->GetZombieStartPositions();
+    for (auto& position : zombiePositions) {
+	zombies.push_back(new Zombie);
+	zombies.back()->Init(2.0f, position);
+    }
 }
 
 void Game::InitShaders() {
@@ -76,6 +82,29 @@ void Game::InitShaders() {
 void Game::UpdateAgents() {
     for (auto agent : humans) {
 	agent->Update(levels[currentLevel]->GetLevelData(), humans, zombies);
+    }
+
+    for (auto agent : zombies) {
+	agent->Update(levels[currentLevel]->GetLevelData(), humans, zombies);
+    }
+
+    for (int i = 0; i < zombies.size(); i++) {
+	for (int j = i + 1; j < zombies.size(); j++) {
+	    zombies[i]->CollideWithAgent(zombies[j]);
+	}
+	for (int j = 1; j < humans.size(); j++) {
+	    if (zombies[i]->CollideWithAgent(humans[j])) {
+		zombies.push_back(new Zombie);
+		zombies.back()->Init(2.0f, humans[j]->GetPosition());
+		delete humans[j];
+		humans[j] = humans.back();
+		humans.pop_back();
+	    }
+	}
+
+	if (zombies[i]->CollideWithAgent(player)) {
+	    FatalError("Game over!");
+	}
     }
 
     for (int i = 0; i < humans.size(); i++) {
@@ -180,6 +209,9 @@ void Game::DrawGame() {
     for (auto human : humans) {
 	human->Draw(agentSpriteBatch);
     }
+    for (auto zombie : zombies) {
+	zombie->Draw(agentSpriteBatch);
+    }    
     agentSpriteBatch.End();
     agentSpriteBatch.DrawBatch();
 
