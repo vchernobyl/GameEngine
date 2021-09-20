@@ -7,6 +7,7 @@
 #include <vector>
 
 const float AgentSize = 60;
+const float AgentRadius = AgentSize / 2;
 
 class Zombie;
 class Human;
@@ -20,7 +21,8 @@ public:
 			std::vector<Human*>& humans,
 			std::vector<Zombie*>& zombies) = 0;
 
-    void CollideWithLevel(const std::vector<std::string>& levelData);
+    bool CollideWithLevel(const std::vector<std::string>& levelData);
+    bool CollideWithAgent(Agent* agent);
 
     void Draw(SpriteBatch& spriteBatch);
     const glm::vec2& GetPosition() const { return position; }

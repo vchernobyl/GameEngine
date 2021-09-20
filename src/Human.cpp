@@ -42,6 +42,8 @@ void Human::Update(const std::vector<std::string>& levelData,
 	frames++;
     }
     
-    CollideWithLevel(levelData);
+    if (CollideWithLevel(levelData)) {
+	direction = glm::rotate(direction, randRotate(randEng));
+    }
 }
 

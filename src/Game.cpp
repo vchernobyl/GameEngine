@@ -77,6 +77,12 @@ void Game::UpdateAgents() {
     for (auto agent : humans) {
 	agent->Update(levels[currentLevel]->GetLevelData(), humans, zombies);
     }
+
+    for (int i = 0; i < humans.size(); i++) {
+	for (int j = i + 1; j < humans.size(); j++) {
+	    humans[i]->CollideWithAgent(humans[j]);
+	}
+    }
 }
 
 void Game::RunGameLoop() {
