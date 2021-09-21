@@ -26,7 +26,7 @@ Level::Level(const std::string& fileName) {
     spriteBatch.Begin();
 
     glm::vec4 uvRect(0.0f, 0.0f, 1.0f, 1.0f);
-    Color whiteColor;
+    ColorRGBA8 whiteColor;
     whiteColor.r = 255;
     whiteColor.g = 255;
     whiteColor.b = 255;

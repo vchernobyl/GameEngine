@@ -33,5 +33,5 @@ protected:
     void CollideWithTile(glm::vec2 tilePosition);
     glm::vec2 position;
     float speed;
-    Color color;
+    ColorRGBA8 color;
 };

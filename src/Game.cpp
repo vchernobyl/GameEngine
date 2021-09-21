@@ -41,7 +41,10 @@ void Game::InitSystems() {
 
     InitShaders();
     agentSpriteBatch.Init();
+
     camera.Init(screenWidth, screenHeight);
+    camera.SetScale(0.25f);
+
     fpsLimiter.Init(maxFPS);
 }
 
@@ -133,6 +136,8 @@ void Game::RunGameLoop() {
 void Game::ProcessInput() {
     SDL_Event event;
 
+    inputManager.Update();
+
     while (SDL_PollEvent(&event)) {
 	switch (event.type) {
 	case SDL_QUIT:
@@ -159,26 +164,26 @@ void Game::ProcessInput() {
     // const float cameraSpeed = 5.0f;
     // const float scaleSpeed = 0.05f;
 
-    // if (inputManager.IsKeyPressed(SDLK_w)) {
+    // if (inputManager.IsKeyDown(SDLK_w)) {
     // 	camera.SetPosition(camera.GetPosition() + glm::vec2(0.0f, cameraSpeed));
     // }
-    // if (inputManager.IsKeyPressed(SDLK_s)) {
+    // if (inputManager.IsKeyDown(SDLK_s)) {
     // 	camera.SetPosition(camera.GetPosition() + glm::vec2(0.0f, -cameraSpeed));
     // }
-    // if (inputManager.IsKeyPressed(SDLK_a)) {
+    // if (inputManager.IsKeyDown(SDLK_a)) {
     // 	camera.SetPosition(camera.GetPosition() + glm::vec2(-cameraSpeed, 0.0f));
     // }
-    // if (inputManager.IsKeyPressed(SDLK_d)) {
+    // if (inputManager.IsKeyDown(SDLK_d)) {
     // 	camera.SetPosition(camera.GetPosition() + glm::vec2(cameraSpeed, 0.0f));
     // }
-    // if (inputManager.IsKeyPressed(SDLK_q)) {
+    // if (inputManager.IsKeyDown(SDLK_q)) {
     // 	camera.SetScale(camera.GetScale() + scaleSpeed);
     // }
-    // if (inputManager.IsKeyPressed(SDLK_e)) {
+    // if (inputManager.IsKeyDown(SDLK_e)) {
     // 	camera.SetScale(camera.GetScale() - scaleSpeed);
     // }
 
-    // if (inputManager.IsKeyPressed(SDL_BUTTON_LEFT)) {
+    // if (inputManager.IsKeyDown(SDL_BUTTON_LEFT)) {
     // 	glm::vec2 mouseCoords = inputManager.GetMouseCoords();
     // 	mouseCoords = camera.ScreenToWorld(mouseCoords);
     // 	glm::vec2 playerPosition(0.0f);

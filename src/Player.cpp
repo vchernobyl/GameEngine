@@ -18,16 +18,16 @@ void Player::Init(int speed, const glm::vec2& position, InputManager* inputManag
 void Player::Update(const std::vector<std::string>& levelData,
 		    std::vector<Human*>& humans,
 		    std::vector<Zombie*>& zombies) {
-    if (inputManager->IsKeyPressed(SDLK_w)) {
+    if (inputManager->IsKeyDown(SDLK_w)) {
 	position.y += speed;
     }
-    if (inputManager->IsKeyPressed(SDLK_s)) {
+    if (inputManager->IsKeyDown(SDLK_s)) {
 	position.y -= speed;
     }
-    if (inputManager->IsKeyPressed(SDLK_d)) {
+    if (inputManager->IsKeyDown(SDLK_d)) {
 	position.x += speed;
     }
-    if (inputManager->IsKeyPressed(SDLK_a)) {
+    if (inputManager->IsKeyDown(SDLK_a)) {
 	position.x -= speed;
     }	
 

@@ -4,10 +4,7 @@
 void Zombie::Init(float speed, const glm::vec2& position) {
     this->speed = speed;
     this->position = position;
-    color.r = 0;
-    color.g = 160;
-    color.b = 0;
-    color.a = 255;
+    this->color = ColorRGBA8(0, 160, 0, 255);
 }
 
 void Zombie::Update(const std::vector<std::string>& levelData,

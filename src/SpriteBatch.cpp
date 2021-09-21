@@ -26,7 +26,7 @@ void SpriteBatch::End() {
 }
 
 void SpriteBatch::Draw(const glm::vec4& destRect, const glm::vec4& uvRect,
-		       GLuint texture, float depth, const Color& color) {
+		       GLuint texture, float depth, const ColorRGBA8& color) {
     SpriteBatchItem* batchItem = new SpriteBatchItem;
     batchItem->texture = texture;
     batchItem->depth = depth;

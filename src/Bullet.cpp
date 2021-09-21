@@ -10,7 +10,7 @@ Bullet::Bullet(const glm::vec2& position, const glm::vec2& direction, float spee
 }
 
 void Bullet::Draw(SpriteBatch& spriteBatch) {
-    Color color;
+    ColorRGBA8 color;
     color.r = 255.0f;
     color.g = 255.0f;
     color.b = 255.0f;

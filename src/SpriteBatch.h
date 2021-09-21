@@ -38,7 +38,7 @@ public:
     void Begin(SpriteSortType sortType = SpriteSortType::Texture);
     void End();
     void Draw(const glm::vec4& destRect, const glm::vec4& uvRect,
-	      GLuint texture, float depth, const Color& color);
+	      GLuint texture, float depth, const ColorRGBA8& color);
     void DrawBatch();
 
 private:
