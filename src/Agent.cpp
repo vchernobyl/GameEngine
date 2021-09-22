@@ -2,6 +2,7 @@
 #include "ResourceManager.h"
 #include "Level.h"
 #include <algorithm>
+#include <iostream>
 
 Agent::Agent() {
 }
@@ -35,7 +36,7 @@ bool Agent::CollideWithAgent(Agent* agent) {
     glm::vec2 distVec = centerPosA - centerPosB;
     float distance = glm::length(distVec);
     float collisionDepth = AgentRadius * 2.0f - distance;
-    if (collisionDepth > 0) {
+    if (collisionDepth > 0 && distance > 0) {
 	glm::vec2 collisionDepthVec = glm::normalize(distVec) * collisionDepth;
 	position += collisionDepthVec / 2.0f;
 	agent->position -= collisionDepthVec / 2.0f;

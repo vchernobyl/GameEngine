@@ -3,6 +3,7 @@
 #include <random>
 #include <ctime>
 #include <glm/gtx/rotate_vector.hpp>
+#include <iostream>
 
 Human::Human() {
 }
@@ -29,21 +30,22 @@ void Human::Init(float speed, glm::vec2 pos) {
 
 void Human::Update(const std::vector<std::string>& levelData,
 		   std::vector<Human*>& humans,
-		   std::vector<Zombie*>& zombies) {
+		   std::vector<Zombie*>& zombies,
+		   float deltaTime) {
     static std::mt19937 randEng(time(nullptr));
     static std::uniform_real_distribution<float> randRotate(-1.0f, 1.0f);
     
-    position += direction * speed;
+    position += direction * speed * deltaTime;
 
     if (frames == 130) {
-	direction = glm::rotate(direction, randRotate(randEng));
+	direction = glm::rotate(direction, glm::radians(randRotate(randEng)));
 	frames = 0;
     } else {
 	frames++;
     }
     
     if (CollideWithLevel(levelData)) {
-	direction = glm::rotate(direction, randRotate(randEng));
+	direction = glm::rotate(direction, glm::radians(randRotate(randEng)));
     }
 }
 

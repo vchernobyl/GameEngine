@@ -24,7 +24,7 @@ private:
     void InitSystems();
     void InitLevel();
     void InitShaders();
-    void UpdateAgents();
+    void UpdateAgents(float deltaTime);
     void RunGameLoop();
     void ProcessInput();
     void DrawGame();

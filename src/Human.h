@@ -12,7 +12,8 @@ public:
     void Init(float speed, glm::vec2 pos);
     void Update(const std::vector<std::string>& levelData,
 		std::vector<Human*>& humans,
-		std::vector<Zombie*>& zombies) override;
+		std::vector<Zombie*>& zombies,
+		float deltaTime) override;
 private:
     glm::vec2 direction;
     int frames = 0;

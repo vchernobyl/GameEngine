@@ -7,6 +7,8 @@
 #include "Human.h"
 #include <random>
 #include <ctime>
+#include <iostream>
+#include <algorithm>
 
 #include <SDL/SDL.h>
 #include <GL/glew.h>
@@ -58,8 +60,8 @@ void Game::InitLevel() {
 
     std::mt19937 randomEngine;
     randomEngine.seed(time(nullptr));
-    std::uniform_int_distribution<int> randX(2, levels[currentLevel]->GetWidth() - 1);
-    std::uniform_int_distribution<int> randY(2, levels[currentLevel]->GetHeight() - 1);
+    std::uniform_int_distribution<int> randX(2, levels[currentLevel]->GetWidth() - 2);
+    std::uniform_int_distribution<int> randY(2, levels[currentLevel]->GetHeight() - 2);
 
     for (int i = 0; i < levels[currentLevel]->GetNumHumans(); i++) {
 	humans.push_back(new Human);
@@ -82,13 +84,13 @@ void Game::InitShaders() {
     shader.Link();
 }
 
-void Game::UpdateAgents() {
+void Game::UpdateAgents(float deltaTime) {
     for (auto agent : humans) {
-	agent->Update(levels[currentLevel]->GetLevelData(), humans, zombies);
+	agent->Update(levels[currentLevel]->GetLevelData(), humans, zombies, deltaTime);
     }
 
     for (auto agent : zombies) {
-	agent->Update(levels[currentLevel]->GetLevelData(), humans, zombies);
+	agent->Update(levels[currentLevel]->GetLevelData(), humans, zombies, deltaTime);
     }
 
     for (int i = 0; i < zombies.size(); i++) {
@@ -118,12 +120,33 @@ void Game::UpdateAgents() {
 }
 
 void Game::RunGameLoop() {
+    const float millisPerSecond = 1000.0f;
+    const float maxSteps = 6;
+    const float targetFPS = 60.0f;
+    const float targetFrameTime = millisPerSecond / targetFPS;
+    const float maxDeltaTime = 1.0f;
+
+    float previousTicks = SDL_GetTicks();
+
     while (gameState != GameState::Exit) {
 	fpsLimiter.Begin();
 
+	float newTicks = SDL_GetTicks();
+	float frameTime = newTicks - previousTicks;
+	previousTicks = newTicks;
+	float totalDeltaTime = frameTime / targetFrameTime;
+
 	ProcessInput();
-	UpdateAgents();
+
+	int i = 0;
+	while (totalDeltaTime >= 0.0f && i < maxSteps) {
+	    float deltaTime = std::min(totalDeltaTime, maxDeltaTime);
+	    UpdateAgents(deltaTime);
+	    totalDeltaTime -= deltaTime;
 	
+	    i++;
+	}
+
 	camera.SetPosition(player->GetPosition());
 	camera.Update();
 	
@@ -160,37 +183,6 @@ void Game::ProcessInput() {
 	    break;
 	}
     }
-    
-    // const float cameraSpeed = 5.0f;
-    // const float scaleSpeed = 0.05f;
-
-    // if (inputManager.IsKeyDown(SDLK_w)) {
-    // 	camera.SetPosition(camera.GetPosition() + glm::vec2(0.0f, cameraSpeed));
-    // }
-    // if (inputManager.IsKeyDown(SDLK_s)) {
-    // 	camera.SetPosition(camera.GetPosition() + glm::vec2(0.0f, -cameraSpeed));
-    // }
-    // if (inputManager.IsKeyDown(SDLK_a)) {
-    // 	camera.SetPosition(camera.GetPosition() + glm::vec2(-cameraSpeed, 0.0f));
-    // }
-    // if (inputManager.IsKeyDown(SDLK_d)) {
-    // 	camera.SetPosition(camera.GetPosition() + glm::vec2(cameraSpeed, 0.0f));
-    // }
-    // if (inputManager.IsKeyDown(SDLK_q)) {
-    // 	camera.SetScale(camera.GetScale() + scaleSpeed);
-    // }
-    // if (inputManager.IsKeyDown(SDLK_e)) {
-    // 	camera.SetScale(camera.GetScale() - scaleSpeed);
-    // }
-
-    // if (inputManager.IsKeyDown(SDL_BUTTON_LEFT)) {
-    // 	glm::vec2 mouseCoords = inputManager.GetMouseCoords();
-    // 	mouseCoords = camera.ScreenToWorld(mouseCoords);
-    // 	glm::vec2 playerPosition(0.0f);
-    // 	glm::vec2 direction = mouseCoords - playerPosition;
-    // 	direction = glm::normalize(direction);
-    // 	bullets.emplace_back(playerPosition, direction, 10.0f, 120);
-    // }
 }
 
 void Game::DrawGame() {

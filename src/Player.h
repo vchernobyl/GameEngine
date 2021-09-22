@@ -12,7 +12,8 @@ public:
     void Init(int speed, const glm::vec2& position, InputManager* inputManager);
     void Update(const std::vector<std::string>& levelData,
 		std::vector<Human*>& humans,
-		std::vector<Zombie*>& zombies) override;
+		std::vector<Zombie*>& zombies,
+		float deltaTime) override;
 
 private:
     InputManager* inputManager;
