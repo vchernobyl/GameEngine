@@ -108,7 +108,7 @@ void Game::UpdateAgents(float deltaTime) {
 	}
 
 	if (zombies[i]->CollideWithAgent(player)) {
-	    FatalError("Game over!");
+//	    FatalError("Game over!");
 	}
     }
 
@@ -210,10 +210,14 @@ void Game::DrawGame() {
 
     agentSpriteBatch.Begin();
     for (auto human : humans) {
-	human->Draw(agentSpriteBatch);
+	if (camera.IsBoxInView(human->GetPosition(), glm::vec2(AgentSize, AgentSize))) {
+	    human->Draw(agentSpriteBatch);
+	}
     }
     for (auto zombie : zombies) {
-	zombie->Draw(agentSpriteBatch);
+	if (camera.IsBoxInView(zombie->GetPosition(), glm::vec2(AgentSize, AgentSize))) {
+	    zombie->Draw(agentSpriteBatch);
+	}
     }    
     agentSpriteBatch.End();
     agentSpriteBatch.DrawBatch();

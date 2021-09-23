@@ -18,6 +18,8 @@ public:
     const glm::mat4& GetCameraMatrix() const { return cameraMatrix; }
     glm::vec2 ScreenToWorld(glm::vec2 screenCoords);
 
+    bool IsBoxInView(const glm::vec2& boxPosition, const glm::vec2& size) const;
+
 private:
     float scale;
     glm::vec2 position;

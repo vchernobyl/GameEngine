@@ -35,3 +35,21 @@ glm::vec2 Camera::ScreenToWorld(glm::vec2 screenCoords) {
     screenCoords += position;
     return screenCoords;
 }
+
+bool Camera::IsBoxInView(const glm::vec2& boxPosition, const glm::vec2& size) const {
+    glm::vec2 scaledScreenSize = glm::vec2(screenWidth, screenHeight) / scale;
+    float minDistanceX = size.x / 2.0f + scaledScreenSize.x / 2.0f;
+    float minDistanceY = size.y / 2.0f + scaledScreenSize.y / 2.0f;
+
+    glm::vec2 centerPos = boxPosition + size / 2.0f;
+    glm::vec2 distVec = boxPosition - position;
+
+    float xDepth = minDistanceX - abs(distVec.x);
+    float yDepth = minDistanceY - abs(distVec.y);
+
+    if (xDepth > 0 && yDepth > 0) {
+	return true;
+    }
+
+    return false;
+}
