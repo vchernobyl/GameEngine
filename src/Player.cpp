@@ -29,5 +29,5 @@ void Player::Update(const std::vector<std::string>& levelData,
 	position.x -= speed * deltaTime;
     }	
 
-//    CollideWithLevel(levelData);
+    CollideWithLevel(levelData);
 }

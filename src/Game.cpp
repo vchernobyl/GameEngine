@@ -128,6 +128,7 @@ void Game::RunGameLoop() {
 
     float previousTicks = SDL_GetTicks();
 
+    int count = 0;
     while (gameState != GameState::Exit) {
 	fpsLimiter.Begin();
 
@@ -153,6 +154,11 @@ void Game::RunGameLoop() {
 	DrawGame();
 
 	fps = fpsLimiter.End();
+	count++;
+	if (count == 30) {
+	    std::cout << "fps: " << fps << std::endl;
+	    count = 0;
+	}
     }	
 }
 

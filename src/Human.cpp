@@ -38,14 +38,14 @@ void Human::Update(const std::vector<std::string>& levelData,
     position += direction * speed * deltaTime;
 
     if (frames == 130) {
-	direction = glm::rotate(direction, glm::radians(randRotate(randEng)));
+	direction = glm::rotate(direction, randRotate(randEng));
 	frames = 0;
     } else {
 	frames++;
     }
     
     if (CollideWithLevel(levelData)) {
-	direction = glm::rotate(direction, glm::radians(randRotate(randEng)));
+	direction = glm::rotate(direction, randRotate(randEng));
     }
 }
 

@@ -15,8 +15,11 @@ void Zombie::Update(const std::vector<std::string>& levelData,
     Human* closestHuman = GetNearestHuman(humans);
 
     if (closestHuman) {
-	glm::vec2 direction = glm::normalize(closestHuman->GetPosition() - position);
-	position += direction * 1.5f * deltaTime;
+	glm::vec2 target = closestHuman->GetPosition() - position;
+	if (target.length() > 0.0f) {
+	    glm::vec2 direction = glm::normalize(closestHuman->GetPosition() - position);
+	    position += direction * 1.5f * deltaTime;
+	}
     }
 }
 

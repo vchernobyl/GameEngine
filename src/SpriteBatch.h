@@ -12,7 +12,29 @@ enum class SpriteSortType {
     Texture
 };
 
-struct SpriteBatchItem {
+class SpriteBatchItem {
+public:
+    SpriteBatchItem(const glm::vec4& destRect, const glm::vec4& uvRect,
+		    GLuint texture, float depth, const ColorRGBA8& color) :
+	texture(texture), depth(depth) {
+
+	topLeft.color = color;
+	topLeft.SetPosition(destRect.x, destRect.y + destRect.w);
+	topLeft.SetUV(uvRect.x, uvRect.y + uvRect.w);
+
+	bottomLeft.color = color;
+	bottomLeft.SetPosition(destRect.x, destRect.y);
+	bottomLeft.SetUV(uvRect.x, uvRect.y);
+
+	bottomRight.color = color;
+	bottomRight.SetPosition(destRect.x + destRect.z, destRect.y);
+	bottomRight.SetUV(uvRect.x + uvRect.z, uvRect.y);
+
+	topRight.color = color;
+	topRight.SetPosition(destRect.x + destRect.z, destRect.y + destRect.w);
+	topRight.SetUV(uvRect.x + uvRect.z, uvRect.y + uvRect.w);
+    }
+    
     GLuint texture;
     float depth;
     Vertex topLeft;
@@ -49,6 +71,8 @@ private:
     GLuint vbo;
     GLuint vao;
     SpriteSortType sortType;
-    std::vector<SpriteBatchItem*> spriteBatchItems;
+
+    std::vector<SpriteBatchItem*> spriteBatchItemPtrs;
+    std::vector<SpriteBatchItem> spriteBatchItems;
     std::vector<RenderBatch> renderBatches;
 };
