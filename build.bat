@@ -10,6 +10,7 @@ set include_flags=/I ..\external\SDL\include^
 
 set libs=shell32.lib^
     ..\external\SDL\lib\x64\SDL2.lib^
+    ..\external\SDL\lib\x64\SDL2_ttf.lib^
     ..\external\SDL\lib\x64\SDL2main.lib^
     ..\external\glew\lib\x64\glew32.lib^
     opengl32.lib
@@ -20,6 +21,8 @@ cl %compile_flags% %include_flags% ..\src\*.cpp %libs% /link %link_flags% /out:%
 popd
 
 if not exist .\build\SDL2.dll copy external\SDL\lib\x64\SDL2.dll .\build
+if not exist .\build\SDL2_ttf.dll copy external\SDL\lib\x64\SDL2_ttf.dll .\build
+if not exist .\build\libfreetype-6.dll copy external\SDL\lib\x64\libfreetype-6.dll .\build
 if not exist .\build\glew32.dll copy external\glew\lib\x64\glew32.dll .\build
 
 echo.
