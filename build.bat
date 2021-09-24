@@ -11,6 +11,7 @@ set include_flags=/I ..\external\SDL\include^
 set libs=shell32.lib^
     ..\external\SDL\lib\x64\SDL2.lib^
     ..\external\SDL\lib\x64\SDL2_ttf.lib^
+    ..\external\SDL\lib\x64\SDL2_mixer.lib^
     ..\external\SDL\lib\x64\SDL2main.lib^
     ..\external\glew\lib\x64\glew32.lib^
     opengl32.lib

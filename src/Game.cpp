@@ -5,22 +5,16 @@
 #include "Level.h"
 #include "Zombie.h"
 #include "Human.h"
+
 #include <random>
 #include <ctime>
 #include <iostream>
 #include <algorithm>
-
 #include <SDL/SDL.h>
 #include <GL/glew.h>
 #include <iostream>
 
-Game::Game() :
-    screenWidth(1024),
-    screenHeight(768),
-    gameState(GameState::Play),
-    fps(0.0f),
-    maxFPS(60.0f),
-    player(nullptr) {
+Game::Game() {
 }
 
 Game::~Game() {

@@ -30,9 +30,9 @@ private:
     void DrawGame();
 
     Window window;
-    int screenWidth;
-    int screenHeight;
-    GameState gameState;
+    int screenWidth = 1024;
+    int screenHeight = 768;
+    GameState gameState = GameState::Play;
 
     Shader shader;
     Camera camera;
@@ -44,9 +44,9 @@ private:
     std::vector<class Human*> humans;
     std::vector<class Zombie*> zombies;
     
-    Player* player;
+    Player* player = nullptr;
     
-    float fps;
-    float maxFPS;
+    float fps = 0.0f;
+    float maxFPS = 60.0f;
     int currentLevel;
 };
