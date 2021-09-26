@@ -26,12 +26,18 @@ Game::~Game() {
 void Game::Run() {
     InitSystems();
     InitLevel();
+
+    auto music = audioManager.LoadMusic("data/sounds/No More Magic.ogg");
+    music.Play(-1);
+
     RunGameLoop();
 }
 
 void Game::InitSystems() {
     Engine::Init();
-    
+
+    audioManager.Init();
+
     window.Create("Game Engine", screenWidth, screenHeight, 0);
     glClearColor(0.7f, 0.7f, 0.7f, 1.0f);
 

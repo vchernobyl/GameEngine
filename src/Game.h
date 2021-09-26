@@ -10,6 +10,7 @@
 #include "Agent.h"
 #include "Player.h"
 #include "SpriteBatch.h"
+#include "AudioManager.h"
 #include <vector>
 
 enum class GameState { Play, Exit };
@@ -38,6 +39,7 @@ private:
     Camera camera;
     SpriteBatch agentSpriteBatch;
     InputManager inputManager;
+    AudioManager audioManager;
     FpsLimiter fpsLimiter;
 
     std::vector<class Level*> levels;
