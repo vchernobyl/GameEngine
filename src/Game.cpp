@@ -27,7 +27,7 @@ void Game::Run() {
     InitSystems();
     InitLevel();
 
-    auto music = audioManager.LoadMusic("data/sounds/No More Magic.ogg");
+    auto music = audioManager.LoadMusic("data/sounds/No More Magic.mp3");
     music.Play(-1);
 
     RunGameLoop();

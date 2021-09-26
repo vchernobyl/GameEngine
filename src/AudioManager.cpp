@@ -42,6 +42,19 @@ void AudioManager::Init() {
 void AudioManager::Destroy() {
     if (isInitialized) {
 	isInitialized = false;
+	
+	for (auto& it : effectCache) {
+	    Mix_FreeChunk(it.second);
+	}
+
+	for (auto& it : musicCache) {
+	    Mix_FreeMusic(it.second);
+	}
+
+	effectCache.clear();
+	musicCache.clear();
+
+	Mix_CloseAudio();
 	Mix_Quit();
     }
 }
