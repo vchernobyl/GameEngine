@@ -13,6 +13,7 @@
 #include <SDL/SDL.h>
 #include <GL/glew.h>
 #include <iostream>
+#include <glm/gtx/rotate_vector.hpp>
 
 Game::Game() {
 }
@@ -48,6 +49,10 @@ void Game::InitSystems() {
     camera.SetScale(0.25f);
 
     fpsLimiter.Init(maxFPS);
+
+    Texture particleTexture = ResourceManager::GetTexture("data/textures/particle.png");
+    bloodParticleBatch = new ParticleBatch(1'000, 0.05f, particleTexture);
+    particleManager.AddParticleBatch(bloodParticleBatch);
 }
 
 void Game::InitLevel() {
@@ -108,7 +113,7 @@ void Game::UpdateAgents(float deltaTime) {
 	}
 
 	if (zombies[i]->CollideWithAgent(player)) {
-//	    FatalError("Game over!");
+	    AddBlood(player->GetPosition(), 1);
 	}
     }
 
@@ -144,7 +149,7 @@ void Game::RunGameLoop() {
 	    float deltaTime = std::min(totalDeltaTime, maxDeltaTime);
 	    UpdateAgents(deltaTime);
 	    totalDeltaTime -= deltaTime;
-	
+	    particleManager.Update(deltaTime);
 	    i++;
 	}
 
@@ -222,7 +227,22 @@ void Game::DrawGame() {
     agentSpriteBatch.End();
     agentSpriteBatch.DrawBatch();
 
+    particleManager.Draw(&agentSpriteBatch);
+
     shader.Unuse();
 
     window.SwapBuffer();
+}
+
+void Game::AddBlood(const glm::vec2& position, int numParticles) {
+    static std::mt19937  randEngine(time(nullptr));
+    static std::uniform_real_distribution<float> randomAngle(0.0f, 360.0f);
+
+    glm::vec2 velocity(2.0f, 0.1f);
+    glm::rotate(velocity, randomAngle(randEngine));
+    ColorRGBA8 color(255.0f, 0.0f, 0.0f, 255.0f);
+
+    for (int i = 0; i < numParticles; i++) {
+	bloodParticleBatch->AddParticle(position, glm::rotate(velocity, randomAngle(randEngine)), color, 20);
+    }
 }

@@ -11,6 +11,8 @@
 #include "Player.h"
 #include "SpriteBatch.h"
 #include "AudioManager.h"
+#include "ParticleManager.h"
+#include "ParticleBatch.h"
 #include <vector>
 
 enum class GameState { Play, Exit };
@@ -29,6 +31,7 @@ private:
     void RunGameLoop();
     void ProcessInput();
     void DrawGame();
+    void AddBlood(const glm::vec2& position, int numParticles);
 
     Window window;
     int screenWidth = 1024;
@@ -41,6 +44,9 @@ private:
     InputManager inputManager;
     AudioManager audioManager;
     FpsLimiter fpsLimiter;
+
+    ParticleManager particleManager;
+    ParticleBatch* bloodParticleBatch;
 
     std::vector<class Level*> levels;
     std::vector<class Human*> humans;
