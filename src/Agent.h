@@ -35,4 +35,5 @@ protected:
     glm::vec2 position;
     float speed;
     ColorRGBA8 color;
+    GLuint textureID;
 };

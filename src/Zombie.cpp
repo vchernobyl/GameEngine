@@ -1,10 +1,12 @@
 #include "Zombie.h"
 #include "Human.h"
+#include "ResourceManager.h"
 
 void Zombie::Init(float speed, const glm::vec2& position) {
     this->speed = speed;
     this->position = position;
-    this->color = ColorRGBA8(0, 160, 0, 255);
+    this->color = ColorRGBA8(255, 255, 255, 255);
+    this->textureID = ResourceManager::GetTexture("data/textures/zombie.png").id;
 }
 
 void Zombie::Update(const std::vector<std::string>& levelData,

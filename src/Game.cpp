@@ -46,7 +46,7 @@ void Game::InitSystems() {
     agentSpriteBatch.Init();
 
     camera.Init(screenWidth, screenHeight);
-    camera.SetScale(0.25f);
+    camera.SetScale(0.5f);
 
     fpsLimiter.Init(maxFPS);
 

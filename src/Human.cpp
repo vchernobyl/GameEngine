@@ -1,5 +1,6 @@
 #include "Human.h"
 #include "Zombie.h"
+#include "ResourceManager.h"
 #include <random>
 #include <ctime>
 #include <glm/gtx/rotate_vector.hpp>
@@ -15,13 +16,10 @@ void Human::Init(float speed, glm::vec2 pos) {
     static std::mt19937 randomEngine(time(nullptr));
     static std::uniform_real_distribution<float> randDir(-1.0f, 1.0f);
 
-    color.r = 183;
-    color.g = 30;
-    color.b = 50;
-    color.a = 255;
-    
+    this->color = ColorRGBA8(255, 255, 255, 255);
     this->speed = speed;
     this->position = pos;
+    this->textureID = ResourceManager::GetTexture("data/textures/human.png").id;
 
     direction = glm::vec2(randDir(randomEngine), randDir(randomEngine));
     if (direction.length() == 0) direction = glm::vec2(1.0f, 0.0f);

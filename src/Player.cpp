@@ -1,5 +1,6 @@
 #include "Player.h"
 #include "Zombie.h"
+#include "ResourceManager.h"
 #include <SDL/SDL.h>
 
 Player::Player() {
@@ -10,6 +11,7 @@ void Player::Init(int speed, const glm::vec2& position, InputManager* inputManag
     this->position = position;
     this->color = ColorRGBA8(255, 255, 255, 255);
     this->inputManager = inputManager;
+    this->textureID = ResourceManager::GetTexture("data/textures/player.png").id;
 }
 
 void Player::Update(const std::vector<std::string>& levelData,
