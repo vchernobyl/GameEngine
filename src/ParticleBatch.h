@@ -3,13 +3,9 @@
 #include "Vertex.h"
 #include "Texture.h"
 #include <glm/glm.hpp>
+#include <functional>
 
-class Particle {
-public:
-    void Update(float deltaTime);
-private:
-    friend class ParticleBatch;
-    
+struct Particle {
     glm::vec2 position = glm::vec2(0.0f);
     glm::vec2 velocity = glm::vec2(0.0f);
     ColorRGBA8 color;
@@ -17,9 +13,14 @@ private:
     float width = 0.0f;
 };
 
+inline void DefaultParticleUpdate(Particle& particle, float deltaTime) {
+    particle.position += particle.velocity * deltaTime;
+}
+
 class ParticleBatch {
 public:
-    ParticleBatch(int maxParticles, float decayRate, Texture texture);
+    ParticleBatch(int maxParticles, float decayRate, Texture texture,
+		  std::function<void(Particle&, float)> updateFunc = DefaultParticleUpdate);
     ~ParticleBatch();
 
     void Update(float deltaTime);
@@ -38,4 +39,5 @@ private:
     float decayRate = 0.1f;
     Particle* particles = nullptr;
     Texture texture;
+    std::function<void(Particle&, float)> updateFunc;
 };

@@ -51,7 +51,10 @@ void Game::InitSystems() {
     fpsLimiter.Init(maxFPS);
 
     Texture particleTexture = ResourceManager::GetTexture("data/textures/particle.png");
-    bloodParticleBatch = new ParticleBatch(1'000, 0.05f, particleTexture);
+    bloodParticleBatch = new ParticleBatch(1'000, 0.05f, particleTexture, [](Particle& particle, float dt) {
+	particle.position += particle.velocity * dt;
+	particle.color.a = static_cast<GLubyte>(particle.life * 255.0f);
+    });
     particleManager.AddParticleBatch(bloodParticleBatch);
 }
 

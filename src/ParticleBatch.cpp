@@ -1,15 +1,13 @@
 #include "ParticleBatch.h"
 #include "SpriteBatch.h"
 
-void Particle::Update(float deltaTime) {
-    position += velocity * deltaTime;
-}
-
-ParticleBatch::ParticleBatch(int maxParticles, float decayRate, Texture texture) :
+ParticleBatch::ParticleBatch(int maxParticles, float decayRate, Texture texture,
+			     std::function<void(Particle&, float)> updateFunc) :
     maxParticles(maxParticles),
     decayRate(decayRate),
     particles(new Particle[maxParticles]),
-    texture(texture) {
+    texture(texture),
+    updateFunc(updateFunc) {
 }
 
 ParticleBatch::~ParticleBatch() {
@@ -19,7 +17,7 @@ ParticleBatch::~ParticleBatch() {
 void ParticleBatch::Update(float deltaTime) {
     for (int i = 0; i < maxParticles; i++) {
 	if (auto& particle = particles[i]; particle.life > 0.0f) {
-	    particle.Update(deltaTime);
+	    updateFunc(particle, deltaTime);
 	    particle.life -= decayRate * deltaTime;
 	}
     }
