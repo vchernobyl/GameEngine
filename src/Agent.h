@@ -33,6 +33,7 @@ protected:
 			   float x, float y);
     void CollideWithTile(glm::vec2 tilePosition);
     glm::vec2 position;
+    glm::vec2 direction = glm::vec2(1.0f, 0.0f);
     float speed;
     ColorRGBA8 color;
     GLuint textureID;

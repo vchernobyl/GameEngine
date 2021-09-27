@@ -29,7 +29,7 @@ void Player::Update(const std::vector<std::string>& levelData,
     }
     if (inputManager->IsKeyDown(SDLK_a)) {
 	position.x -= speed * deltaTime;
-    }	
+    }
 
     CollideWithLevel(levelData);
 }

@@ -15,25 +15,10 @@ enum class SpriteSortType {
 class SpriteBatchItem {
 public:
     SpriteBatchItem(const glm::vec4& destRect, const glm::vec4& uvRect,
-		    GLuint texture, float depth, const ColorRGBA8& color) :
-	texture(texture), depth(depth) {
+		    GLuint texture, float depth, const ColorRGBA8& color);
 
-	topLeft.color = color;
-	topLeft.SetPosition(destRect.x, destRect.y + destRect.w);
-	topLeft.SetUV(uvRect.x, uvRect.y + uvRect.w);
-
-	bottomLeft.color = color;
-	bottomLeft.SetPosition(destRect.x, destRect.y);
-	bottomLeft.SetUV(uvRect.x, uvRect.y);
-
-	bottomRight.color = color;
-	bottomRight.SetPosition(destRect.x + destRect.z, destRect.y);
-	bottomRight.SetUV(uvRect.x + uvRect.z, uvRect.y);
-
-	topRight.color = color;
-	topRight.SetPosition(destRect.x + destRect.z, destRect.y + destRect.w);
-	topRight.SetUV(uvRect.x + uvRect.z, uvRect.y + uvRect.w);
-    }
+    SpriteBatchItem(const glm::vec4& destRect, const glm::vec4& uvRect,
+		    GLuint texture, float depth, const ColorRGBA8& color, float angle);
     
     GLuint texture;
     float depth;
@@ -41,6 +26,9 @@ public:
     Vertex bottomLeft;
     Vertex bottomRight;
     Vertex topRight;
+
+private:
+    glm::vec2 RotatePoint(const glm::vec2& point, float angle);
 };
 
 class RenderBatch {
@@ -59,8 +47,16 @@ public:
     void Init();
     void Begin(SpriteSortType sortType = SpriteSortType::Texture);
     void End();
+
     void Draw(const glm::vec4& destRect, const glm::vec4& uvRect,
 	      GLuint texture, float depth, const ColorRGBA8& color);
+
+    void Draw(const glm::vec4& destRect, const glm::vec4& uvRect,
+	      GLuint texture, float depth, const ColorRGBA8& color, float angle);
+
+    void Draw(const glm::vec4& destRect, const glm::vec4& uvRect,
+	      GLuint texture, float depth, const ColorRGBA8& color, const glm::vec2& direction);
+
     void DrawBatch();
 
 private:

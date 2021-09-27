@@ -2,6 +2,66 @@
 #include <iostream>
 #include <algorithm>
 
+SpriteBatchItem::SpriteBatchItem(const glm::vec4& destRect, const glm::vec4& uvRect,
+				 GLuint texture, float depth, const ColorRGBA8& color) :
+    texture(texture), depth(depth) {
+    topLeft.color = color;
+    topLeft.SetPosition(destRect.x, destRect.y + destRect.w);
+    topLeft.SetUV(uvRect.x, uvRect.y + uvRect.w);
+
+    bottomLeft.color = color;
+    bottomLeft.SetPosition(destRect.x, destRect.y);
+    bottomLeft.SetUV(uvRect.x, uvRect.y);
+
+    bottomRight.color = color;
+    bottomRight.SetPosition(destRect.x + destRect.z, destRect.y);
+    bottomRight.SetUV(uvRect.x + uvRect.z, uvRect.y);
+
+    topRight.color = color;
+    topRight.SetPosition(destRect.x + destRect.z, destRect.y + destRect.w);
+    topRight.SetUV(uvRect.x + uvRect.z, uvRect.y + uvRect.w);
+}
+
+SpriteBatchItem::SpriteBatchItem(const glm::vec4& destRect, const glm::vec4& uvRect,
+				 GLuint texture, float depth, const ColorRGBA8& color, float angle) :
+    texture(texture), depth(depth) {
+
+    glm::vec2 halfDims(destRect.z / 2.0f, destRect.w / 2.0f);
+
+    glm::vec2 tl(-halfDims.x, halfDims.y);
+    glm::vec2 bl(-halfDims.x, -halfDims.y);
+    glm::vec2 br(halfDims.x, -halfDims.y);
+    glm::vec2 tr(halfDims.x, halfDims.y);
+
+    tl = RotatePoint(tl, angle) + halfDims;
+    bl = RotatePoint(bl, angle) + halfDims;
+    br = RotatePoint(br, angle) + halfDims;
+    tr = RotatePoint(tr, angle) + halfDims;
+    
+    topLeft.color = color;
+    topLeft.SetPosition(destRect.x + tl.x, destRect.y + tl.y);
+    topLeft.SetUV(uvRect.x, uvRect.y + uvRect.w);
+
+    bottomLeft.color = color;
+    bottomLeft.SetPosition(destRect.x + bl.x, destRect.y + bl.y);
+    bottomLeft.SetUV(uvRect.x, uvRect.y);
+
+    bottomRight.color = color;
+    bottomRight.SetPosition(destRect.x + br.x, destRect.y + br.y);
+    bottomRight.SetUV(uvRect.x + uvRect.z, uvRect.y);
+
+    topRight.color = color;
+    topRight.SetPosition(destRect.x + tr.x, destRect.y + tr.y);
+    topRight.SetUV(uvRect.x + uvRect.z, uvRect.y + uvRect.w);
+}
+
+glm::vec2 SpriteBatchItem::RotatePoint(const glm::vec2& point, float angle) {
+    glm::vec2 rotated;
+    rotated.x = point.x * cos(angle) - point.y * sin(angle);
+    rotated.y = point.x * sin(angle) + point.y * cos(angle);
+    return rotated;
+}
+
 SpriteBatch::SpriteBatch() : vbo(0), vao(0) {
 }
 
@@ -28,6 +88,23 @@ void SpriteBatch::End() {
 void SpriteBatch::Draw(const glm::vec4& destRect, const glm::vec4& uvRect,
 		       GLuint texture, float depth, const ColorRGBA8& color) {
     spriteBatchItems.emplace_back(destRect, uvRect, texture, depth, color);
+}
+
+void SpriteBatch::Draw(const glm::vec4& destRect, const glm::vec4& uvRect,
+		       GLuint texture, float depth, const ColorRGBA8& color, float angle) {
+    spriteBatchItems.emplace_back(destRect, uvRect, texture, depth, color, angle);
+}
+
+void SpriteBatch::Draw(const glm::vec4& destRect, const glm::vec4& uvRect,
+		       GLuint texture, float depth, const ColorRGBA8& color, const glm::vec2& direction) {
+    const glm::vec2 right(1.0f, 0.0f);
+    float angle = acos(glm::dot(right, direction));
+
+    if (direction.y < 0.0f) {
+	angle = -angle;
+    }
+
+    spriteBatchItems.emplace_back(destRect, uvRect, texture, depth, color, angle);
 }
 
 void SpriteBatch::DrawBatch() {
