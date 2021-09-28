@@ -17,10 +17,10 @@
 
 enum class GameState { Play, Exit };
 
-class Game {
+class ZombieGame {
 public:
-    Game();
-    ~Game();
+    ZombieGame();
+    ~ZombieGame();
     void Run();
 
 private:

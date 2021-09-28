@@ -1,4 +1,4 @@
-#include "Game.h"
+#include "ZombieGame.h"
 #include "Engine.h"
 #include "Errors.h"
 #include "ResourceManager.h"
@@ -15,16 +15,16 @@
 #include <iostream>
 #include <glm/gtx/rotate_vector.hpp>
 
-Game::Game() {
+ZombieGame::ZombieGame() {
 }
 
-Game::~Game() {
+ZombieGame::~ZombieGame() {
     for (auto level : levels) {
 	delete level;
     }
 }
 
-void Game::Run() {
+void ZombieGame::Run() {
     InitSystems();
     InitLevel();
 
@@ -34,7 +34,7 @@ void Game::Run() {
     RunGameLoop();
 }
 
-void Game::InitSystems() {
+void ZombieGame::InitSystems() {
     Engine::Init();
 
     audioManager.Init();
@@ -58,7 +58,7 @@ void Game::InitSystems() {
     particleManager.AddParticleBatch(bloodParticleBatch);
 }
 
-void Game::InitLevel() {
+void ZombieGame::InitLevel() {
     levels.push_back(new Level("data/level_1.txt"));
     currentLevel = 0;
 
@@ -84,7 +84,7 @@ void Game::InitLevel() {
     }
 }
 
-void Game::InitShaders() {
+void ZombieGame::InitShaders() {
     shader.Compile("data/shaders/TextureShading.vert", "data/shaders/TextureShading.frag");
     shader.AddAttribute("vertexPosition");
     shader.AddAttribute("vertexColor");
@@ -92,7 +92,7 @@ void Game::InitShaders() {
     shader.Link();
 }
 
-void Game::UpdateAgents(float deltaTime) {
+void ZombieGame::UpdateAgents(float deltaTime) {
     for (auto agent : humans) {
 	agent->Update(levels[currentLevel]->GetLevelData(), humans, zombies, deltaTime);
     }
@@ -127,7 +127,7 @@ void Game::UpdateAgents(float deltaTime) {
     }
 }
 
-void Game::RunGameLoop() {
+void ZombieGame::RunGameLoop() {
     const float millisPerSecond = 1000.0f;
     const float maxSteps = 6;
     const float targetFPS = 60.0f;
@@ -170,7 +170,7 @@ void Game::RunGameLoop() {
     }	
 }
 
-void Game::ProcessInput() {
+void ZombieGame::ProcessInput() {
     SDL_Event event;
 
     inputManager.Update();
@@ -199,7 +199,7 @@ void Game::ProcessInput() {
     }
 }
 
-void Game::DrawGame() {
+void ZombieGame::DrawGame() {
     glClearDepth(1.0);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -237,7 +237,7 @@ void Game::DrawGame() {
     window.SwapBuffer();
 }
 
-void Game::AddBlood(const glm::vec2& position, int numParticles) {
+void ZombieGame::AddBlood(const glm::vec2& position, int numParticles) {
     static std::mt19937  randEngine(time(nullptr));
     static std::uniform_real_distribution<float> randomAngle(0.0f, 360.0f);
 
