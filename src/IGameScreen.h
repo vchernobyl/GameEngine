@@ -33,6 +33,8 @@ public:
 protected:
     ScreenState currentState = ScreenState::None;
     class IGame* game = nullptr;
+
 private:
+    friend class ScreenManager;
     int screenIndex = -1;
 };

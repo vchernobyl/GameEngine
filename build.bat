@@ -18,7 +18,7 @@ set libs=shell32.lib^
     
 if not exist build mkdir build
 pushd build
-cl %compile_flags% %include_flags% ..\src\*.cpp ..\src\ZombieGame\*.cpp %libs% /link %link_flags% /out:%application%.exe
+cl %compile_flags% %include_flags%^ ..\src\*.cpp ..\src\ZombieGame\*.cpp ..\src\NinjaGame\*.cpp %libs% /link %link_flags% /out:%application%.exe
 popd
 
 if not exist .\build\SDL2.dll copy external\SDL\lib\x64\SDL2.dll .\build

@@ -1,8 +1,8 @@
 #include "ZombieGame/ZombieGame.h"
-#include "NinjaGame.h"
+#include "NinjaGame/App.h"
 
 int main(int argc, char** argv) {
-    ZombieGame game;
+    App game;
     game.Run();
 
     return 0;

@@ -2,6 +2,7 @@
 
 #include "Window.h"
 #include "InputManager.h"
+#include "ScreenManager.h"
 #include <memory>
 #include <SDL/SDL.h>
 
@@ -10,6 +11,7 @@ class IGameScreen;
 
 class IGame {
 public:
+    IGame();
     virtual ~IGame() {}
 
     void Run();
@@ -19,6 +21,8 @@ public:
     virtual void AddScreens() = 0;
     virtual void OnExit() = 0;
 
+    virtual void OnSdlEvent(SDL_Event& event);
+
     float GetFps() const { return fps; }
 
 protected:
@@ -26,7 +30,6 @@ protected:
 
     virtual void Update();
     virtual void Draw();
-    virtual void OnSdlEvent(SDL_Event& event);
 
     std::unique_ptr<ScreenManager> screenManager = nullptr;
     IGameScreen* currentScreen = nullptr;

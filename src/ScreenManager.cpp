@@ -30,6 +30,7 @@ void ScreenManager::SetScreen(int screenIndex) {
 }
 
 void ScreenManager::AddScreen(IGameScreen* screen) {
+    screen->screenIndex = screens.size();
     screens.push_back(screen);
     screen->Build();
     screen->SetParentGame(game);
