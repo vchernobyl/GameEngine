@@ -1,6 +1,8 @@
 #include "Player.h"
 #include "Zombie.h"
-#include "ResourceManager.h"
+
+#include "../ResourceManager.h"
+
 #include <SDL/SDL.h>
 
 Player::Player() {

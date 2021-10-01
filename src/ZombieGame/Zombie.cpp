@@ -1,6 +1,6 @@
 #include "Zombie.h"
 #include "Human.h"
-#include "ResourceManager.h"
+#include "../ResourceManager.h"
 
 void Zombie::Init(float speed, const glm::vec2& position) {
     this->speed = speed;

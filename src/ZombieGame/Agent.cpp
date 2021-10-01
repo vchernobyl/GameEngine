@@ -1,6 +1,6 @@
 #include "Agent.h"
-#include "ResourceManager.h"
 #include "Level.h"
+#include "../ResourceManager.h"
 #include <algorithm>
 #include <iostream>
 

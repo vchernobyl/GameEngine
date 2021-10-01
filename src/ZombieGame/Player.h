@@ -1,7 +1,9 @@
 #pragma once
 
 #include "Human.h"
-#include "InputManager.h"
+
+#include "../InputManager.h"
+
 #include <string>
 #include <vector>
 

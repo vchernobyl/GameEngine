@@ -1,6 +1,8 @@
 #include "Human.h"
 #include "Zombie.h"
-#include "ResourceManager.h"
+
+#include "../ResourceManager.h"
+
 #include <random>
 #include <ctime>
 #include <glm/gtx/rotate_vector.hpp>

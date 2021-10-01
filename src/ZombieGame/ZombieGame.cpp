@@ -1,10 +1,11 @@
 #include "ZombieGame.h"
-#include "Engine.h"
-#include "Errors.h"
-#include "ResourceManager.h"
 #include "Level.h"
 #include "Zombie.h"
 #include "Human.h"
+
+#include "../Engine.h"
+#include "../Errors.h"
+#include "../ResourceManager.h"
 
 #include <random>
 #include <ctime>

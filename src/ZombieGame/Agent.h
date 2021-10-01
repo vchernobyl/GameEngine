@@ -1,7 +1,7 @@
 #pragma once
 
-#include "SpriteBatch.h"
-#include "Vertex.h"
+#include "../SpriteBatch.h"
+#include "../Vertex.h"
 #include <glm/glm.hpp>
 #include <string>
 #include <vector>

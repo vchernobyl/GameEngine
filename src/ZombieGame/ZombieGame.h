@@ -1,18 +1,20 @@
 #pragma once
 
-#include "Shader.h"
-#include "Texture.h"
-#include "Window.h"
-#include "Camera.h"
-#include "InputManager.h"
-#include "Timing.h"
+#include "../Shader.h"
+#include "../Texture.h"
+#include "../Window.h"
+#include "../Camera.h"
+#include "../InputManager.h"
+#include "../Timing.h"
+#include "../SpriteBatch.h"
+#include "../AudioManager.h"
+#include "../ParticleManager.h"
+#include "../ParticleBatch.h"
+
 #include "Human.h"
 #include "Agent.h"
 #include "Player.h"
-#include "SpriteBatch.h"
-#include "AudioManager.h"
-#include "ParticleManager.h"
-#include "ParticleBatch.h"
+
 #include <vector>
 
 enum class GameState { Play, Exit };

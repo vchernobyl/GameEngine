@@ -64,6 +64,7 @@ private:
     void CreateVertexArray();
     void SortSpriteBatchItems();
 
+    // TODO: Header initialize values right here.
     GLuint vbo;
     GLuint vao;
     SpriteSortType sortType;

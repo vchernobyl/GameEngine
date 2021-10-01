@@ -1,4 +1,5 @@
-#include "ZombieGame.h"
+#include "ZombieGame/ZombieGame.h"
+#include "NinjaGame.h"
 
 int main(int argc, char** argv) {
     ZombieGame game;

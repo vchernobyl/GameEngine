@@ -19,7 +19,7 @@ void Shader::Compile(const std::string& vertexShaderFilePath, const std::string&
 
     fragmentShaderID = glCreateShader(GL_FRAGMENT_SHADER);
     if (fragmentShaderID == 0) {
-	FatalError("Failed to create a fragment shader.h");
+	FatalError("Failed to create a fragment shader.");
     }
 
     CompileShader(vertexShaderFilePath, vertexShaderID);

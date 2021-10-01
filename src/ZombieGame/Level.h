@@ -1,6 +1,6 @@
 #pragma once
 
-#include "SpriteBatch.h"
+#include "../SpriteBatch.h"
 #include <string>
 #include <vector>
 #include <glm/glm.hpp>

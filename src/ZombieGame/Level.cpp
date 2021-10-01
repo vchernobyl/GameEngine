@@ -1,7 +1,7 @@
 #include "Level.h"
-#include "Errors.h"
-#include "Vertex.h"
-#include "ResourceManager.h"
+#include "../Errors.h"
+#include "../Vertex.h"
+#include "../ResourceManager.h"
 #include <fstream>
 #include <iostream>
 
