@@ -6,7 +6,8 @@ set link_flags=/DEBUG:FASTLINK /SUBSYSTEM:CONSOLE
 
 set include_flags=/I ..\external\SDL\include^
     /I ..\external\glew\include^
-    /I ..\external\glm\include
+    /I ..\external\glm\include^
+    /I ..\external\box2d\include
 
 set libs=shell32.lib^
     ..\external\SDL\lib\x64\SDL2.lib^
@@ -14,6 +15,7 @@ set libs=shell32.lib^
     ..\external\SDL\lib\x64\SDL2_mixer.lib^
     ..\external\SDL\lib\x64\SDL2main.lib^
     ..\external\glew\lib\x64\glew32.lib^
+    ..\external\box2d\lib\x64\box2d.lib^
     opengl32.lib
     
 if not exist build mkdir build
