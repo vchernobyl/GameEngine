@@ -4,7 +4,7 @@
 #include "GameplayScreen.h"
 #include <memory>
 
-class App : public IGame {
+class NinjaGame : public IGame {
     void OnInit() override;
     void AddScreens() override;
     void OnExit() override;

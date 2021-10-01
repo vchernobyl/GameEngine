@@ -4,6 +4,9 @@
 #include <GL/glew.h>
 
 int Window::Create(const std::string& windowName, int screenWidth, int screenHeight, unsigned int windowFlags) {
+    this->screenWidth = screenWidth;
+    this->screenHeight = screenHeight;
+    
     Uint32 flags = SDL_WINDOW_OPENGL;
     if (windowFlags & Invisible) flags |= SDL_WINDOW_HIDDEN;
     if (windowFlags & Fullscreen) flags |= SDL_WINDOW_FULLSCREEN_DESKTOP;

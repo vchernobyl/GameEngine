@@ -1,14 +1,14 @@
-#include "App.h"
+#include "NinjaGame.h"
 #include "GameplayScreen.h"
 
 #include "../ScreenManager.h"
 
-void App::OnInit() { }
+void NinjaGame::OnInit() { }
 
-void App::AddScreens() {
-    gameplayScreen = std::make_unique<GameplayScreen>();
+void NinjaGame::AddScreens() {
+    gameplayScreen = std::make_unique<GameplayScreen>(&window);
     screenManager->AddScreen(gameplayScreen.get());
     screenManager->SetScreen(gameplayScreen->GetScreenIndex());
 }
 
-void App::OnExit() { }
+void NinjaGame::OnExit() { }
