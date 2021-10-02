@@ -1,4 +1,3 @@
-#include "ZombieGame/ZombieGame.h"
 #include "NinjaGame/NinjaGame.h"
 #undef main
 

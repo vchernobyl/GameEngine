@@ -38,6 +38,8 @@ void GameplayScreen::OnEntry() {
     
     const int numBoxes = 50;
 
+    texture = ResourceManager::GetTexture("data/textures/red_bricks.png");
+
     for (int i = 0; i < numBoxes; i++) {
 	ColorRGBA8 color;
 	color.r = colorDist(randomGenerator);
@@ -47,6 +49,7 @@ void GameplayScreen::OnEntry() {
 	BoxCollider box(world.get(),
 			glm::vec2(xDist(randomGenerator), yDist(randomGenerator)),
 			glm::vec2(sizeDist(randomGenerator), sizeDist(randomGenerator)),
+			texture,
 			color);
 	boxes.push_back(box);
     }	
@@ -62,11 +65,15 @@ void GameplayScreen::OnEntry() {
     textureShader.AddAttribute("vertexUV");
     textureShader.Link();
 
-    texture = ResourceManager::GetTexture("data/textures/red_bricks.png");
-
     // Camera init.
     camera.Init(window->GetScreenWidth(), window->GetScreenHeight());
     camera.SetScale(16.0f);
+
+    Texture playerTexture = ResourceManager::GetTexture("data/textures/Ninja/player.png");
+
+    // Player init.
+    player = Player(world.get(), glm::vec2(0.0f, 30.0f), glm::vec2(1.0f, 2.0f),
+		    ColorRGBA8(255.0f, 255.0f, 255.0f, 255.0f));
 }
 
 void GameplayScreen::OnExit() { }
@@ -97,17 +104,10 @@ void GameplayScreen::Draw() {
 
     // Draw all the boxes.
     for (auto& b : boxes) {
-	glm::vec2 size = b.GetSize();
-	glm::vec2 position = b.GetPosition();
-	glm::vec4 destRect(position.x - size.x / 2.0f, position.y - size.y / 2.0f, size.x, size.y);
-
-	spriteBatch.Draw(destRect,
-			 glm::vec4(0.0f, 0.0f, 1.0f, 1.0f),
-			 texture.id,
-			 0.0f,
-			 b.GetColor(),
-			 b.GetAngle());
+	b.Draw(spriteBatch);
     }
+
+    player.Draw(spriteBatch);
 
     spriteBatch.End();
     spriteBatch.DrawBatch();

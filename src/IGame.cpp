@@ -102,7 +102,7 @@ void IGame::Draw() {
 void IGame::OnSdlEvent(SDL_Event& event) {
     switch (event.type) {
     case SDL_QUIT:
-	isRunning = false;
+	ExitGame();
 	break;
     case SDL_KEYDOWN:
 	inputManager.PressKey(event.key.keysym.sym);

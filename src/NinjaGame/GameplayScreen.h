@@ -7,6 +7,8 @@
 #include "../Camera.h"
 #include "../Texture.h"
 
+#include "Player.h"
+
 #include <box2d/box2d.h>
 #include <memory>
 #include <vector>
@@ -38,4 +40,6 @@ private:
 
     std::unique_ptr<b2World> world;
     std::vector<BoxCollider> boxes;
+
+    Player player;
 };
