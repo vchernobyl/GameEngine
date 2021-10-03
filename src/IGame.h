@@ -24,6 +24,7 @@ public:
     virtual void OnSdlEvent(SDL_Event& event);
 
     float GetFps() const { return fps; }
+    const InputManager& GetInputManager() const { return inputManager; }
 
 protected:
     bool Init();

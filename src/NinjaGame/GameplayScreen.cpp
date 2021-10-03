@@ -17,7 +17,7 @@ void GameplayScreen::Build() { }
 void GameplayScreen::Destroy() { }
 
 void GameplayScreen::OnEntry() {
-    b2Vec2 gravity(0.0f, -9.8f);
+    b2Vec2 gravity(0.0f, -25.0f);
     world = std::make_unique<b2World>(gravity);
 
     // Define the ground.
@@ -80,6 +80,7 @@ void GameplayScreen::OnExit() { }
 
 void GameplayScreen::Update() {
     ProcessInput();
+    player.Update(game->GetInputManager());
     world->Step(1.0f / 60.0f, 6, 2);
     camera.Update();
 }
