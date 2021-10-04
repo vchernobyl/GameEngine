@@ -7,7 +7,8 @@ class Shader {
 public:
     Shader();
     ~Shader();
-    
+
+    void CompileFromSource(const char* vertexSource, const char* fragmentSource);
     void Compile(const std::string& vertexShaderFilePath, const std::string& fragmentShaderFilePath);
     void Link();
     void AddAttribute(const std::string& attributeName);
@@ -16,8 +17,8 @@ public:
     void Unuse();
 
 private:
-    void CompileShader(const std::string& filePath, GLuint id);
-    
+    void CompileShader(const char* source, const std::string& name, GLuint id);
+
     GLuint programID;
     GLuint vertexShaderID;
     GLuint fragmentShaderID;

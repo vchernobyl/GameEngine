@@ -1,5 +1,6 @@
 #include "Shader.h"
 #include "Errors.h"
+#include "IOManager.h"
 #include <fstream>
 #include <vector>
 
@@ -9,7 +10,7 @@ Shader::Shader() : programID(0), vertexShaderID(0), fragmentShaderID(0), numAttr
 Shader::~Shader() {
 }
 
-void Shader::Compile(const std::string& vertexShaderFilePath, const std::string& fragmentShaderFilePath) {
+void Shader::CompileFromSource(const char* vertexSource, const char* fragmentSource) {
     programID = glCreateProgram();
 
     vertexShaderID = glCreateShader(GL_VERTEX_SHADER);
@@ -22,8 +23,18 @@ void Shader::Compile(const std::string& vertexShaderFilePath, const std::string&
 	FatalError("Failed to create a fragment shader.");
     }
 
-    CompileShader(vertexShaderFilePath, vertexShaderID);
-    CompileShader(fragmentShaderFilePath, fragmentShaderID);
+    CompileShader(vertexSource, "Vertex shader", vertexShaderID);
+    CompileShader(fragmentSource, "Fragment shader", fragmentShaderID);
+}
+
+void Shader::Compile(const std::string& vertexShaderFilePath, const std::string& fragmentShaderFilePath) {
+    std::string vertexSource;
+    std::string fragmentSource;
+    
+    IOManager::ReadFileToBuffer(vertexShaderFilePath, vertexSource);
+    IOManager::ReadFileToBuffer(fragmentShaderFilePath, fragmentSource);
+
+    CompileFromSource(vertexSource.c_str(), fragmentSource.c_str());
 }
 
 void Shader::Link() {
@@ -80,23 +91,8 @@ void Shader::Unuse() {
     }
 }
 
-void Shader::CompileShader(const std::string& filePath, GLuint id) {
-    std::ifstream vertexFile(filePath);
-    if (vertexFile.fail()) {
-	FatalError("Failed to open shader file: " + filePath);
-    }
-
-    std::string fileContents = "";
-    std::string line;
-
-    while (std::getline(vertexFile, line)) {
-	fileContents += line + "\n";
-    }
-
-    vertexFile.close();
-
-    const char* contentsPtr = fileContents.c_str();
-    glShaderSource(id, 1, &contentsPtr, nullptr);
+void Shader::CompileShader(const char* source, const std::string& name, GLuint id) {
+    glShaderSource(id, 1, &source, nullptr);
     glCompileShader(id);
 
     GLint success = 0;
@@ -110,6 +106,6 @@ void Shader::CompileShader(const std::string& filePath, GLuint id) {
 	glDeleteShader(id);
 
 	std::printf("%s\n", &(errorLog[0]));
-	FatalError("Shader " + filePath + " failed to compile.");
+	FatalError("Shader " + name + " failed to compile.");
     }
 }
