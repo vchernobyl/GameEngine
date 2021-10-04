@@ -27,6 +27,8 @@ public:
 
     b2Body* GetBody() { return body; }
 
+    glm::vec2 GetCenter() const;
+
 private:
     class b2Body* body = nullptr;
     class b2Fixture* fixture = nullptr;

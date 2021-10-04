@@ -109,3 +109,7 @@ void Shader::CompileShader(const char* source, const std::string& name, GLuint i
 	FatalError("Shader " + name + " failed to compile.");
     }
 }
+
+void Shader::Dispose() {
+    if (programID) glDeleteProgram(programID);
+}

@@ -72,10 +72,16 @@ void DebugRenderer::End() {
     glBindBuffer(GL_ARRAY_BUFFER, vbo);
     glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(DebugVertex), nullptr, GL_DYNAMIC_DRAW);
     glBufferSubData(GL_ARRAY_BUFFER, 0, vertices.size() * sizeof(DebugVertex), vertices.data());
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
 
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(GLuint), nullptr, GL_DYNAMIC_DRAW);
-    glBufferSubData(GL_ELEMENT_ARRAY_BUFFER, 0, indices.size() * sizeof(DebugVertex), indices.data());
+    glBufferSubData(GL_ELEMENT_ARRAY_BUFFER, 0, indices.size() * sizeof(GLuint), indices.data());
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+
+    elementCount = indices.size();
+    vertices.clear();
+    indices.clear();
 }
 
 void DebugRenderer::DrawBox(const glm::vec4& rect, const ColorRGBA8& color, float angle) {
@@ -124,8 +130,8 @@ void DebugRenderer::DrawCircle(const glm::vec2& center, const ColorRGBA8& color,
 
     for (int i = 0; i < vertexCount; i++) {
 	float angle = static_cast<float>(i) / vertexCount * 2 * PI;
-	vertices[start + i].position.x = cos(angle) * radius;
-	vertices[start + i].position.y = sin(angle) * radius;
+	vertices[start + i].position.x = cos(angle) * radius + center.x;
+	vertices[start + i].position.y = sin(angle) * radius + center.y;
 	vertices[start + i].color = color;
     }
 
@@ -140,6 +146,24 @@ void DebugRenderer::DrawCircle(const glm::vec2& center, const ColorRGBA8& color,
     indices.push_back(start);
 }
 
-void DebugRenderer::Render() {}
+void DebugRenderer::Render(const glm::mat4& projectionMatrix, float lineWidth) {
+    shader.Use();
 
-void DebugRenderer::Dispose() {}
+    GLint pUniform = shader.GetUniformLocation("P");
+    glUniformMatrix4fv(pUniform, 1, GL_FALSE, &projectionMatrix[0][0]);
+
+    glBindVertexArray(vao);
+    glLineWidth(lineWidth);
+    glDrawElements(GL_LINES, elementCount, GL_UNSIGNED_INT, 0);
+    glBindVertexArray(0);
+
+    shader.Unuse();
+}
+
+void DebugRenderer::Dispose() {
+    if (vao) glDeleteVertexArrays(1, &vao);
+    if (vbo) glDeleteBuffers(1, &vbo);
+    if (ibo) glDeleteBuffers(1, &ibo);
+
+    shader.Dispose();
+}

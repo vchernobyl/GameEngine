@@ -15,6 +15,7 @@ public:
     GLint GetUniformLocation(const std::string& uniformName);
     void Use();
     void Unuse();
+    void Dispose();
 
 private:
     void CompileShader(const char* source, const std::string& name, GLuint id);

@@ -113,6 +113,23 @@ void GameplayScreen::Draw() {
     spriteBatch.End();
     spriteBatch.DrawBatch();
     textureShader.Unuse();
+
+    // Debug rendering.
+    for (auto& b : boxes) {
+	glm::vec2 center = b.GetCenter();
+	glm::vec2 size = b.GetSize();
+	glm::vec4 rect(center.x, center.y, size.x, size.y);
+	debugRenderer.DrawBox(rect, ColorRGBA8(0.0f, 255.0f, 0.0f, 255.0f), b.GetAngle());
+    }
+
+    BoxCollider b = player.GetBoxCollider();
+    glm::vec2 center = b.GetCenter();
+    glm::vec2 size = b.GetSize();
+    glm::vec4 rect(center.x, center.y, size.x, size.y);
+    debugRenderer.DrawBox(rect, ColorRGBA8(0.0f, 255.0f, 0.0f, 255.0f), b.GetAngle());
+
+    debugRenderer.End();
+    debugRenderer.Render(projectionMatrix);
 }
 
 int GameplayScreen::GetNextScreenIndex() const {

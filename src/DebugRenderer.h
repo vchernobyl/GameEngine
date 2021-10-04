@@ -13,7 +13,7 @@ public:
     void End();
     void DrawBox(const glm::vec4& rect, const ColorRGBA8& color, float angle);
     void DrawCircle(const glm::vec2& center, const ColorRGBA8& color, float radius);
-    void Render();
+    void Render(const glm::mat4& projectionMatrix, float lineWidth = 1.0f);
     void Dispose();
 
 private:
@@ -24,7 +24,8 @@ private:
     };
     
     Shader shader;
-    GLuint vao, vbo, ibo;
+    GLuint vao, vbo, ibo = 0;
+    size_t elementCount = 0;
 
     std::vector<DebugVertex> vertices;
     std::vector<GLuint> indices;

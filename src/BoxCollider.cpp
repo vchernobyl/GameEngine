@@ -57,3 +57,8 @@ void BoxCollider::ApplyForceToCenter(const glm::vec2& force) {
 void BoxCollider::ApplyImpulse(const glm::vec2& impulse) {
     body->ApplyLinearImpulse(b2Vec2(impulse.x, impulse.y), b2Vec2(0.0f, 0.0f), true);
 }
+
+glm::vec2 BoxCollider::GetCenter() const {
+    b2Vec2 position = body->GetPosition();
+    return glm::vec2(position.x - size.x / 2.0f, position.y - size.y / 2);
+}
