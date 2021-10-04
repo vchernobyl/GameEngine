@@ -6,6 +6,7 @@
 #include "../Shader.h"
 #include "../Camera.h"
 #include "../Texture.h"
+#include "../DebugRenderer.h"
 
 #include "Player.h"
 
@@ -37,6 +38,7 @@ private:
     Camera camera;
     Texture texture;
     class Window* window;
+    DebugRenderer debugRenderer;
 
     std::unique_ptr<b2World> world;
     std::vector<BoxCollider> boxes;
